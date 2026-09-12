@@ -1,0 +1,30 @@
+name: Discord Notify
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Enviar alerta para o Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          COMMIT_SHA: ${{ github.sha }}
+          REPO_NAME: ${{ github.repository }}
+          AUTHOR: ${{ github.actor }}
+        run: |
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          DESCRIPTION="**Autor:** ${AUTHOR}\n**Commit:** [\`${SHORT_SHA}\`](${COMMIT_URL})\n**Mensagem:** ${COMMIT_MSG}"
+          PAYLOAD=$(jq -n \
+            --arg title "Novo push/merge no main - ${REPO_NAME}" \
+            --arg desc "$DESCRIPTION" \
+            '{username: "GitHub Actions", embeds: [{title: $title, description: $desc, color: 5793266}]}')
+          curl -sS -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$DISCORD_WEBHOOK"
+
