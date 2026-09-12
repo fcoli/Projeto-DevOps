@@ -49,3 +49,8 @@ requirements.txt           # dependencias do projeto
 - Desenvolvimento realizado no branch `CI`, separado do `main`.
 - Multiplos commits pequenos e descritivos.
 - Integracao via Pull Request do branch `CI` para o `main`.
+
+## Notificacoes
+
+Este repositorio envia um alerta para um canal do Discord a cada push no
+branch `main` (veja `.github/workflows/discord-notify.yml`).
