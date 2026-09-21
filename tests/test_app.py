@@ -37,14 +37,16 @@ class TestTaskManager(unittest.TestCase):
         result = remove_task(self.tasks, task["id"])
         self.assertTrue(result)
         self.assertEqual(len(self.tasks), 0)
-
     def test_list_tasks_format(self):
         add_task(self.tasks, "Abrir PR")
         lines = list_tasks(self.tasks)
         self.assertEqual(len(lines), 1)
         self.assertIn("Abrir PR", lines[0])
 
+    def test_remove_task_not_found(self):
+        result = remove_task(self.tasks, 999)
+        self.assertFalse(result)
+
 
 if __name__ == "__main__":
     unittest.main()
-
