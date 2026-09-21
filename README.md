@@ -54,3 +54,5 @@ requirements.txt           # dependencias do projeto
 
 Este repositorio envia um alerta para um canal do Discord a cada push no
 branch `main` (veja `.github/workflows/discord-notify.yml`).
+
+Novo commit de demonstracao: o CI roda automaticamente a cada push nesta PR.
